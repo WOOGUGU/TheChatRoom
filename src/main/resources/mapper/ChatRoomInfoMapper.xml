@@ -5,18 +5,48 @@
 <mapper namespace="com.example.thechatroom.mapper.ChatRoomInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.example.thechatroom.domain.ChatRoomInfo">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="sessionId" column="session_id" jdbcType="VARCHAR"/>
-            <result property="isExpired" column="is_expired" jdbcType="TINYINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="destroyTime" column="destroy_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="sessionId" column="session_id" jdbcType="VARCHAR"/>
+        <result property="isExpired" column="is_expired" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="destroyTime" column="destroy_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,room_id,user_id,
+        id
+        ,room_id,user_id,
         session_id,is_expired,create_time,
         destroy_time
     </sql>
+
+    <insert id="initChatRoomInfo">
+        insert into chat_room_info (room_id, user_id)
+        values (#{roomId,jdbcType=VARCHAR}, #{userId,jdbcType=NUMERIC})
+    </insert>
+
+    <select id="getAllByRoomId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chat_room_info
+        where
+        room_id = #{roomId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateSessionIdAndCreateTime">
+        update chat_room_info
+        set session_id  = #{sessionId,jdbcType=VARCHAR},
+            is_expired   = true,
+            create_time = #{createTime}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateDestroyTime">
+        update chat_room_info
+        set is_expired   = false,
+            destroy_time = #{destroyTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

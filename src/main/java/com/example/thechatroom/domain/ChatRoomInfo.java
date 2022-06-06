@@ -6,7 +6,6 @@ import lombok.Data;
 
 /**
  * 聊天室基本信息
- * @author WOOGUGU
  * @TableName chat_room_info
  */
 @Data

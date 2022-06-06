@@ -6,7 +6,6 @@ import lombok.Data;
 
 /**
  * 聊天历史记录
- * @author WOOGUGU
  * @TableName chat_history
  */
 @Data
