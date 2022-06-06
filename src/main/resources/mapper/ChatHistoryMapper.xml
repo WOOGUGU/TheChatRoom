@@ -5,18 +5,66 @@
 <mapper namespace="com.example.thechatroom.mapper.ChatHistoryMapper">
 
     <resultMap id="BaseResultMap" type="com.example.thechatroom.domain.ChatHistory">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
-            <result property="message" column="message" jdbcType="VARCHAR"/>
-            <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
-            <result property="receiveTime" column="receive_time" jdbcType="TIMESTAMP"/>
-            <result property="isRead" column="is_read" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
+        <result property="message" column="message" jdbcType="VARCHAR"/>
+        <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+        <result property="receiveTime" column="receive_time" jdbcType="TIMESTAMP"/>
+        <result property="isRead" column="is_read" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,room_id,
+        id
+        ,user_id,room_id,
         message,send_time,receive_time,
         is_read
     </sql>
+
+    <insert id="addAllOnline">
+        insert into chat_history
+        (id, user_id, room_id,
+         message, send_time,
+         receive_time, is_read)
+        values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+                #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
+                #{receiveTime,jdbcType=TIMESTAMP}, true)
+    </insert>
+
+    <insert id="addAllOffLine">
+        insert into chat_history
+        (id, user_id, room_id,
+         message, send_time, is_read)
+        values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+                #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, false)
+    </insert>
+
+    <select id="getUnreadByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chat_history
+        where user_id = #{userId,jdbcType=NUMERIC}
+        and is_read = false
+    </select>
+
+    <select id="getUnreadByRoomId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chat_history
+        where room_id = #{roomId,jdbcType=VARCHAR}
+        and is_read = false
+    </select>
+
+    <select id="getAllByRoomId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chat_history
+        where room_id = #{roomId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateIsReadById">
+        update chat_history
+        set is_read = true
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>
