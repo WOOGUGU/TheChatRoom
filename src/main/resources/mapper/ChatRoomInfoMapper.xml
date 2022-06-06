@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.thechatroom.mapper.ChatRoomInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.thechatroom.domain.ChatRoomInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="sessionId" column="session_id" jdbcType="VARCHAR"/>
+            <result property="isExpired" column="is_expired" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="destroyTime" column="destroy_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,room_id,user_id,
+        session_id,is_expired,create_time,
+        destroy_time
+    </sql>
+</mapper>
