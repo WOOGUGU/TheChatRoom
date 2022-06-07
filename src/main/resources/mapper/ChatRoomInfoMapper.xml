@@ -34,10 +34,21 @@
         room_id = #{roomId,jdbcType=VARCHAR}
     </select>
 
+    <select id="getRoomIdByUserId" resultMap="BaseResultMap">
+        select room_id
+        from (select *
+              from chat_room_info
+              where room_id
+                        in (select room_id
+                            from chat_room_info
+                            where user_id = #{userId1,jdbcType=NUMERIC})) as t
+        where user_id = #{userId2,jdbcType=NUMERIC}
+    </select>
+
     <update id="updateSessionIdAndCreateTime">
         update chat_room_info
         set session_id  = #{sessionId,jdbcType=VARCHAR},
-            is_expired   = true,
+            is_expired  = true,
             create_time = #{createTime}
         where id = #{id,jdbcType=VARCHAR}
     </update>

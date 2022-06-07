@@ -20,11 +20,11 @@ public interface ChatRoomInfoMapper {
     /**
      * 初始化聊天室
      *
-     * @param romeId 聊天室id
+     * @param roomId 聊天室id
      * @param userId 用户id
      * @return 是否初始化成功
      */
-    int initChatRoomInfo(@Param("romeId") String romeId, @Param("userId") BigInteger userId);
+    int initChatRoomInfo(@Param("roomId") String roomId, @Param("userId") BigInteger userId);
 
     /**
      * 根据聊天室id查询聊天室成员信息
@@ -35,18 +35,29 @@ public interface ChatRoomInfoMapper {
     List<ChatRoomInfo> getAllByRoomId(@Param("roomId") String roomId);
 
     /**
+     * 根据聊天室成员查找聊天室id
+     *
+     * @param userId1 用户1id
+     * @param userId2 用户2id
+     * @return roomId
+     */
+    ChatRoomInfo getRoomIdByUserId(@Param("userId1") BigInteger userId1, @Param("userId2") BigInteger userId2);
+
+    /**
      * 更新用户在线状态
-     * @param sessionId 用户sessionId
+     *
+     * @param sessionId  用户sessionId
      * @param createTime 用户创建时间
-     * @param id 用户id
+     * @param id         用户id
      * @return 是否更新成功
      */
     int updateSessionIdAndCreateTime(@Param("sessionId") String sessionId, @Param("createTime") Date createTime, @Param("id") String id);
 
     /**
      * 更新用户离线时间
+     *
      * @param destroyTime 用户离线时间
-     * @param id 用户id
+     * @param id          用户id
      * @return 是否更新成功
      */
     int updateDestroyTime(@Param("destroyTime") Date destroyTime, @Param("id") String id);
