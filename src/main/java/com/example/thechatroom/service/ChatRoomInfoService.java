@@ -20,4 +20,13 @@ public interface ChatRoomInfoService {
      * @return 聊天室基本信息列表（两组信息）
      */
     List<ChatRoomInfo> selectRoomInfoByUserId(BigInteger userId1, BigInteger userId2);
+
+    /**
+     * 创建聊天室
+     *
+     * @param roomId  聊天室id
+     * @param userId1 用户1id
+     * @param userId2 用户2id
+     */
+    void createChatRoom(String roomId, BigInteger userId1, BigInteger userId2);
 }

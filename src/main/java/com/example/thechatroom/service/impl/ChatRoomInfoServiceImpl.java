@@ -30,13 +30,18 @@ public class ChatRoomInfoServiceImpl implements ChatRoomInfoService {
         if (chatRoomInfo == null) {
             // 聊天室不存在，创建新聊天室
             roomId = DataUtils.get16uuid();
-            log.info("聊天室不存在，创建新聊天室，roomId={}", roomId);
-            // FIXME: 2020/6/6 创建聊天室时，需先判断roomId是否存在
-            chatRoomInfoMapper.initChatRoomInfo(roomId, userId1);
-            chatRoomInfoMapper.initChatRoomInfo(roomId, userId2);
+//            log.info("聊天室不存在，创建新聊天室，roomId={}", roomId);
+            createChatRoom(roomId, userId1, userId2);
         } else {
             roomId = chatRoomInfo.getRoomId();
         }
         return chatRoomInfoMapper.getAllByRoomId(roomId);
+    }
+
+    @Override
+    public void createChatRoom(String roomId, BigInteger userId1, BigInteger userId2) {
+        // FIXME: 2020/6/6 创建聊天室时，需先判断roomId是否存在
+        chatRoomInfoMapper.initChatRoomInfo(roomId, userId1);
+        chatRoomInfoMapper.initChatRoomInfo(roomId, userId2);
     }
 }
