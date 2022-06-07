@@ -3,6 +3,7 @@ package com.example.thechatroom.service;
 import com.example.thechatroom.domain.ChatRoomInfo;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +30,21 @@ public interface ChatRoomInfoService {
      * @param userId2 用户2id
      */
     void createChatRoom(String roomId, BigInteger userId1, BigInteger userId2);
+
+    /**
+     * 更新用户链接状态（上线）
+     *
+     * @param id         聊天室记录id
+     * @param sessionId  用户链接sessionId
+     * @param createTime 用户创建链接
+     */
+    void updateOnlineInformation(String id, String sessionId, Date createTime);
+
+    /**
+     * 更新用户状态（下线）
+     *
+     * @param id          聊天室记录id
+     * @param destroyTime 用户链接离线时间
+     */
+    void updateOffLineInformation(String id, Date destroyTime);
 }

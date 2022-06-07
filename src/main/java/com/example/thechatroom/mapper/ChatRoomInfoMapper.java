@@ -51,7 +51,7 @@ public interface ChatRoomInfoMapper {
      * @param id         用户id
      * @return 是否更新成功
      */
-    int updateSessionIdAndCreateTime(@Param("sessionId") String sessionId, @Param("createTime") Date createTime, @Param("id") String id);
+    int updateSessionIdAndCreateTime(@Param("id") String id, @Param("sessionId") String sessionId, @Param("createTime") Date createTime);
 
     /**
      * 更新用户离线时间
@@ -60,5 +60,5 @@ public interface ChatRoomInfoMapper {
      * @param id          用户id
      * @return 是否更新成功
      */
-    int updateDestroyTime(@Param("destroyTime") Date destroyTime, @Param("id") String id);
+    int updateDestroyTime(@Param("id") String id, @Param("destroyTime") Date destroyTime);
 }

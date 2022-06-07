@@ -47,12 +47,12 @@ class TheChatRoomApplicationTests {
 
     @Test
     void updateSessionIdAndCreateTime() {
-        chatRoomInfoMapper.updateSessionIdAndCreateTime("session", new Date(), "2");
+        chatRoomInfoMapper.updateSessionIdAndCreateTime("2", "session", new Date());
     }
 
     @Test
     void updateDestroyTime() {
-        chatRoomInfoMapper.updateDestroyTime(new Date(), "2");
+        chatRoomInfoMapper.updateDestroyTime("2", new Date());
     }
 
     @Test
@@ -67,5 +67,16 @@ class TheChatRoomApplicationTests {
                 log.info("res = {}", o.toString());
             }
         }
+    }
+
+    @Test
+    void userOnlineAndOffLine() {
+        chatRoomInfoService.updateOnlineInformation("16", "sessionN", new Date());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        chatRoomInfoService.updateOffLineInformation("16", new Date());
     }
 }

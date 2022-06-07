@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,5 +44,15 @@ public class ChatRoomInfoServiceImpl implements ChatRoomInfoService {
         // FIXME: 2020/6/6 创建聊天室时，需先判断roomId是否存在
         chatRoomInfoMapper.initChatRoomInfo(roomId, userId1);
         chatRoomInfoMapper.initChatRoomInfo(roomId, userId2);
+    }
+
+    @Override
+    public void updateOnlineInformation(String id, String sessionId, Date createTime) {
+        chatRoomInfoMapper.updateSessionIdAndCreateTime(id, sessionId, createTime);
+    }
+
+    @Override
+    public void updateOffLineInformation(String id, Date destroyTime) {
+        chatRoomInfoMapper.updateDestroyTime(id, destroyTime);
     }
 }
