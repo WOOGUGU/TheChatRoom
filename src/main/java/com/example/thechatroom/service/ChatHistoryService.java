@@ -30,4 +30,12 @@ public interface ChatHistoryService {
      * @return 查找到的记录
      */
     List<ChatHistory> getUnreadByUserId(BigInteger receiveUserId);
+
+    /**
+     * 查找某聊天室未读消息
+     *
+     * @param roomId 聊天室id
+     * @return 查找到的记录
+     */
+    List<ChatHistory> getUnreadByRoomId(String roomId);
 }

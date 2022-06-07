@@ -46,7 +46,7 @@ public interface ChatHistoryMapper {
      * @param roomId 聊天室id
      * @return 查找到的记录
      */
-    List<ChatHistory> getUnreadByRoomId(@Param("romeId") String roomId);
+    List<ChatHistory> getUnreadByRoomId(@Param("roomId") String roomId);
 
     /**
      * 查找某聊天室全部消息记录

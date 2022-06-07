@@ -50,4 +50,10 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
         List<ChatHistory> chatHistories = chatHistoryMapper.getUnreadByReceiveUserId(receiveUserId);
         return chatHistories;
     }
+
+    @Override
+    public List<ChatHistory> getUnreadByRoomId(String roomId) {
+        List<ChatHistory> chatHistories = chatHistoryMapper.getUnreadByRoomId(roomId);
+        return chatHistories;
+    }
 }

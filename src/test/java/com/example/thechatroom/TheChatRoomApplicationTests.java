@@ -86,20 +86,26 @@ class TheChatRoomApplicationTests {
 
     @Test
     void sendMessage() {
-        chatHistoryService.addHistory("16", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a online message.", true);
+        chatHistoryService.addHistory("2206070058486085", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a online message.", true);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        chatHistoryService.addHistory("16", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a offline message.", false);
+        chatHistoryService.addHistory("2206070058486085", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a offline message.", false);
     }
 
     @Test
     void getUnread() {
         BigInteger userId = BigInteger.valueOf(2);
-        log.info("全部未读消息");
+        log.info("用户 2 全部未读消息");
         List<ChatHistory> res = chatHistoryService.getUnreadByUserId(userId);
+        for (Object o : res) {
+            log.info("res = {}", o.toString());
+        }
+
+        log.info("房间 2206070058486085 未读消息");
+        res = chatHistoryService.getUnreadByRoomId("2206070058486085");
         for (Object o : res) {
             log.info("res = {}", o.toString());
         }
