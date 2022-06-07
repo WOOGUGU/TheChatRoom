@@ -1,6 +1,7 @@
 package com.example.thechatroom.domain;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class ChatHistory implements Serializable {
     /**
      * 用户id
      */
-    private Long userId;
+    private BigInteger userId;
 
     /**
      * 聊天室id

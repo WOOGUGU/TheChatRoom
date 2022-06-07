@@ -23,19 +23,19 @@
 
     <insert id="addAllOnline">
         insert into chat_history
-        (id, user_id, room_id,
+        (user_id, room_id,
          message, send_time,
          receive_time, is_read)
-        values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+        values (#{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
                 #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
                 #{receiveTime,jdbcType=TIMESTAMP}, true)
     </insert>
 
     <insert id="addAllOffLine">
         insert into chat_history
-        (id, user_id, room_id,
+        (user_id, room_id,
          message, send_time, is_read)
-        values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+        values (#{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
                 #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, false)
     </insert>
 

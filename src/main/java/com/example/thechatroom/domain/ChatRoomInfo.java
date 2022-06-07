@@ -1,6 +1,7 @@
 package com.example.thechatroom.domain;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ public class ChatRoomInfo implements Serializable {
     /**
      * 用户id
      */
-    private Long userId;
+    private BigInteger userId;
 
     /**
      * WsSession id

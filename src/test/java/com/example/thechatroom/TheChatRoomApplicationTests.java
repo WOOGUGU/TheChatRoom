@@ -2,6 +2,7 @@ package com.example.thechatroom;
 
 import com.example.thechatroom.domain.ChatRoomInfo;
 import com.example.thechatroom.mapper.ChatRoomInfoMapper;
+import com.example.thechatroom.service.ChatHistoryService;
 import com.example.thechatroom.service.ChatRoomInfoService;
 import com.example.thechatroom.util.DataUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ class TheChatRoomApplicationTests {
     private ChatRoomInfoMapper chatRoomInfoMapper;
     @Autowired
     private ChatRoomInfoService chatRoomInfoService;
+    @Autowired
+    private ChatHistoryService chatHistoryService;
 
     @Test
     void contextLoads() {
@@ -78,5 +81,16 @@ class TheChatRoomApplicationTests {
             e.printStackTrace();
         }
         chatRoomInfoService.updateOffLineInformation("16", new Date());
+    }
+
+    @Test
+    void sendMessage() {
+        chatHistoryService.addHistory("16", BigInteger.valueOf(3), "hello,user2! This is a online message.", true);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        chatHistoryService.addHistory("16", BigInteger.valueOf(3), "hello,user2! This is a offline message.", false);
     }
 }
