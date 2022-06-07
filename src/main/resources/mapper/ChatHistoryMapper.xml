@@ -6,7 +6,8 @@
 
     <resultMap id="BaseResultMap" type="com.example.thechatroom.domain.ChatHistory">
         <id property="id" column="id" jdbcType="INTEGER"/>
-        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="sendUserId" column="send_user_id" jdbcType="BIGINT"/>
+        <result property="receiveUserId" column="receive_user_id" jdbcType="BIGINT"/>
         <result property="roomId" column="room_id" jdbcType="VARCHAR"/>
         <result property="message" column="message" jdbcType="VARCHAR"/>
         <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
@@ -16,34 +17,33 @@
 
     <sql id="Base_Column_List">
         id
-        ,user_id,room_id,
-        message,send_time,receive_time,
-        is_read
+        ,send_user_id,receive_user_id,room_id,
+        message,send_time,receive_time,is_read
     </sql>
 
     <insert id="addAllOnline">
         insert into chat_history
-        (user_id, room_id,
+        (send_user_id, receive_user_id, room_id,
          message, send_time,
          receive_time, is_read)
-        values (#{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+        values (#{sendUserId,jdbcType=NUMERIC}, #{receiveUserId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
                 #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
                 #{receiveTime,jdbcType=TIMESTAMP}, true)
     </insert>
 
     <insert id="addAllOffLine">
         insert into chat_history
-        (user_id, room_id,
+        (send_user_id, receive_user_id, room_id,
          message, send_time, is_read)
-        values (#{userId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
+        values (#{sendUserId,jdbcType=NUMERIC}, #{receiveUserId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
                 #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, false)
     </insert>
 
-    <select id="getUnreadByUserId" resultMap="BaseResultMap">
+    <select id="getUnreadByReceiveUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from chat_history
-        where user_id = #{userId,jdbcType=NUMERIC}
+        where receive_user_id = #{receiveUserId,jdbcType=NUMERIC}
         and is_read = false
     </select>
 

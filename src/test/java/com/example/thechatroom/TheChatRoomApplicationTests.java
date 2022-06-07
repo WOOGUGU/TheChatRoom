@@ -1,5 +1,6 @@
 package com.example.thechatroom;
 
+import com.example.thechatroom.domain.ChatHistory;
 import com.example.thechatroom.domain.ChatRoomInfo;
 import com.example.thechatroom.mapper.ChatRoomInfoMapper;
 import com.example.thechatroom.service.ChatHistoryService;
@@ -85,12 +86,22 @@ class TheChatRoomApplicationTests {
 
     @Test
     void sendMessage() {
-        chatHistoryService.addHistory("16", BigInteger.valueOf(3), "hello,user2! This is a online message.", true);
+        chatHistoryService.addHistory("16", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a online message.", true);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        chatHistoryService.addHistory("16", BigInteger.valueOf(3), "hello,user2! This is a offline message.", false);
+        chatHistoryService.addHistory("16", BigInteger.valueOf(3), BigInteger.valueOf(2), "hello,user2! This is a offline message.", false);
+    }
+
+    @Test
+    void getUnread() {
+        BigInteger userId = BigInteger.valueOf(2);
+        log.info("全部未读消息");
+        List<ChatHistory> res = chatHistoryService.getUnreadByUserId(userId);
+        for (Object o : res) {
+            log.info("res = {}", o.toString());
+        }
     }
 }

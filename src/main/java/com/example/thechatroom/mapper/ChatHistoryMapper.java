@@ -35,10 +35,10 @@ public interface ChatHistoryMapper {
     /**
      * 查找某人全部未读消息
      *
-     * @param userId 用户id
+     * @param receiveUserId 接收用户id
      * @return 查找到的记录
      */
-    List<ChatHistory> getUnreadByUserId(@Param("userId") BigInteger userId);
+    List<ChatHistory> getUnreadByReceiveUserId(@Param("receiveUserId") BigInteger receiveUserId);
 
     /**
      * 查找某聊天室未读消息

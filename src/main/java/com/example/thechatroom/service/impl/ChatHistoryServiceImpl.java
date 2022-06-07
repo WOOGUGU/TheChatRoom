@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author WOOGUGU
@@ -23,11 +24,12 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
     private final ChatHistoryMapper chatHistoryMapper;
 
     @Override
-    public void addHistory(String roomId, BigInteger userId, String message, Boolean isOnline) {
+    public void addHistory(String roomId, BigInteger sendUserId, BigInteger receiveUserId, String message, Boolean isOnline) {
         if (isOnline) {
             ChatHistory chatHistory = new ChatHistory();
             chatHistory.setRoomId(roomId);
-            chatHistory.setUserId(userId);
+            chatHistory.setSendUserId(sendUserId);
+            chatHistory.setReceiveUserId(receiveUserId);
             chatHistory.setMessage(message);
             chatHistory.setSendTime(new Date());
             chatHistory.setReceiveTime(new Date());
@@ -35,10 +37,17 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
         } else {
             ChatHistory chatHistory = new ChatHistory();
             chatHistory.setRoomId(roomId);
-            chatHistory.setUserId(userId);
+            chatHistory.setSendUserId(sendUserId);
+            chatHistory.setReceiveUserId(receiveUserId);
             chatHistory.setMessage(message);
             chatHistory.setSendTime(new Date());
             chatHistoryMapper.addAllOffLine(chatHistory);
         }
+    }
+
+    @Override
+    public List<ChatHistory> getUnreadByUserId(BigInteger receiveUserId) {
+        List<ChatHistory> chatHistories = chatHistoryMapper.getUnreadByReceiveUserId(receiveUserId);
+        return chatHistories;
     }
 }

@@ -1,25 +1,32 @@
 package com.example.thechatroom.domain;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 聊天历史记录
+ *
  * @TableName chat_history
  */
 @Data
 public class ChatHistory implements Serializable {
     /**
-     * 
+     *
      */
     private Integer id;
 
     /**
-     * 用户id
+     * 发送者用户id
      */
-    private BigInteger userId;
+    private BigInteger sendUserId;
+
+    /**
+     * 接收者用户id
+     */
+    private BigInteger receiveUserId;
 
     /**
      * 聊天室id
