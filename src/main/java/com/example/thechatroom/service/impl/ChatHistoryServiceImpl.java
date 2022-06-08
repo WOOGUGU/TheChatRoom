@@ -32,8 +32,6 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
             chatHistory.setSendUserId(sendUserId);
             chatHistory.setReceiveUserId(receiveUserId);
             chatHistory.setMessage(message);
-            chatHistory.setSendTime(new Date());
-            chatHistory.setReceiveTime(new Date());
             chatHistoryMapper.addAllOnline(chatHistory);
         } else {
             ChatHistory chatHistory = new ChatHistory();
@@ -41,7 +39,6 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
             chatHistory.setSendUserId(sendUserId);
             chatHistory.setReceiveUserId(receiveUserId);
             chatHistory.setMessage(message);
-            chatHistory.setSendTime(new Date());
             chatHistoryMapper.addAllOffLine(chatHistory);
         }
     }
