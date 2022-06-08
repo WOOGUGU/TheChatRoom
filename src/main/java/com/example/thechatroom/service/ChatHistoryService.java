@@ -32,10 +32,18 @@ public interface ChatHistoryService {
     List<ChatHistory> getUnreadByUserId(BigInteger receiveUserId);
 
     /**
-     * 查找某聊天室未读消息
+     * 查找某聊天室未读消息，更新接收用户对应消息为已读
      *
      * @param roomId 聊天室id
+     * @param receiveUserId 接收用户id
      * @return 查找到的记录
      */
-    List<ChatHistory> getUnreadByRoomId(String roomId);
+    List<ChatHistory> getUnreadByRoomId(String roomId, BigInteger receiveUserId);
+
+    /**
+     * 更新某组记录为已读
+     *
+     * @param ids 记录id
+     */
+    void updateToRead(List<Integer> ids);
 }

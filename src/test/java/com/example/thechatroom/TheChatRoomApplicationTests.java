@@ -105,7 +105,7 @@ class TheChatRoomApplicationTests {
         }
 
         log.info("房间 2206070058486085 未读消息");
-        res = chatHistoryService.getUnreadByRoomId("2206070058486085");
+        res = chatHistoryService.getUnreadByRoomId("2206070058486085", BigInteger.valueOf(2));
         for (Object o : res) {
             log.info("res = {}", o.toString());
         }

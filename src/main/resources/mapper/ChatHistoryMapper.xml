@@ -27,8 +27,7 @@
          message, send_time,
          receive_time, is_read)
         values (#{sendUserId,jdbcType=NUMERIC}, #{receiveUserId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
-                #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
-                #{receiveTime,jdbcType=TIMESTAMP}, true)
+                #{message,jdbcType=VARCHAR}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true)
     </insert>
 
     <insert id="addAllOffLine">
@@ -36,7 +35,7 @@
         (send_user_id, receive_user_id, room_id,
          message, send_time, is_read)
         values (#{sendUserId,jdbcType=NUMERIC}, #{receiveUserId,jdbcType=NUMERIC}, #{roomId,jdbcType=VARCHAR},
-                #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, false)
+                #{message,jdbcType=VARCHAR}, CURRENT_TIMESTAMP, false)
     </insert>
 
     <select id="getUnreadByReceiveUserId" resultMap="BaseResultMap">
@@ -64,7 +63,8 @@
 
     <update id="updateIsReadById">
         update chat_history
-        set is_read = true
+        set is_read      = true,
+            receive_time = CURRENT_TIMESTAMP
         where id = #{id,jdbcType=NUMERIC}
     </update>
 </mapper>

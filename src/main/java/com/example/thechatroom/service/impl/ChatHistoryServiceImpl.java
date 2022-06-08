@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +53,25 @@ public class ChatHistoryServiceImpl implements ChatHistoryService {
     }
 
     @Override
-    public List<ChatHistory> getUnreadByRoomId(String roomId) {
+    public List<ChatHistory> getUnreadByRoomId(String roomId, BigInteger receiveUserId) {
         List<ChatHistory> chatHistories = chatHistoryMapper.getUnreadByRoomId(roomId);
+        // 将查找到的记录中的接收用户id更新为已读
+        List<Integer> ids = new ArrayList<>();
+        for (ChatHistory chatHistory : chatHistories) {
+            if (chatHistory.getReceiveUserId().equals(receiveUserId)) {
+                ids.add(chatHistory.getId());
+            }
+        }
+        if (ids.size() > 0) {
+            updateToRead(ids);
+        }
         return chatHistories;
+    }
+
+    @Override
+    public void updateToRead(List<Integer> ids) {
+        for (int i : ids) {
+            chatHistoryMapper.updateIsReadById(i);
+        }
     }
 }
