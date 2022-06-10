@@ -8,7 +8,6 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -21,13 +20,21 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Service
 @ServerEndpoint("/api/websocket/{sid}")
 public class WebSocketServer {
-    //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
+    /**
+     * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
+     */
     private static int onlineCount = 0;
-    //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
+    /**
+     * concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
+     */
     private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
-    //与某个客户端的连接会话，需要通过它来给客户端发送数据
+    /**
+     * 与某个客户端的连接会话，需要通过它来给客户端发送数据
+     */
     private Session session;
-    //接收sid
+    /**
+     * 接收sid
+     */
     private String sid = "";
 
     /**
@@ -36,9 +43,11 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session, @PathParam("sid") String sid) {
         this.session = session;
-        webSocketSet.add(this);     //加入set中
+        //加入set中
+        webSocketSet.add(this);
+        log.info("this?{}", this);
         this.sid = sid;
-        addOnlineCount();           //在线数加1
+        addOnlineCount();
         try {
             sendMessage("conn_success");
             log.info("有新窗口开始监听:" + sid + ",当前在线人数为:" + getOnlineCount());
@@ -70,39 +79,14 @@ public class WebSocketServer {
     public void onMessage(String message, Session session) {
 //        log.info("收到来自窗口" + sid + "的信息:" + message);
         log.info("session{}", (session.getClass()));
-//        //群发消息
-//        for (WebSocketServer item : webSocketSet) {
-//            log.info("item.sid = {}",item.sid);
-//            log.info("item.session = {}",item.session);
-//            try {
-//                item.sendMessage(message);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        if(Objects.equals(sid, "101")){
-            log.info("101发送信息：" + message);
-            for (WebSocketServer item : webSocketSet) {
-                if(Objects.equals(item.sid, "102")){
-                    log.info("102接收信息：" + message);
-                    try {
-                        item.sendMessage(message);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }else if(Objects.equals(sid, "102")){
-            log.info("102发送信息：" + message);
-            for (WebSocketServer item : webSocketSet) {
-                if(Objects.equals(item.sid, "101")){
-                    log.info("101接收信息：" + message);
-                    try {
-                        item.sendMessage(message);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+        //群发消息
+        for (WebSocketServer item : webSocketSet) {
+            log.info("item.sid = {}", item.sid);
+            log.info("item.session = {}", item.session);
+            try {
+                item.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -144,14 +128,25 @@ public class WebSocketServer {
         }
     }
 
+    /**
+     * 获取在线数量
+     *
+     * @return 在线数量
+     */
     public static synchronized int getOnlineCount() {
         return onlineCount;
     }
 
+    /**
+     * 在线数加1
+     */
     public static synchronized void addOnlineCount() {
         WebSocketServer.onlineCount++;
     }
 
+    /**
+     * 在线数减1
+     */
     public static synchronized void subOnlineCount() {
         WebSocketServer.onlineCount--;
     }
